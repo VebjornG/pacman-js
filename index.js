@@ -1,6 +1,8 @@
 const width = 28
 const grid = document.querySelector('.grid')
 const scoreDisplay = document.getElementById('score')
+const youWin = document.querySelector('.you-win')
+const youLose = document.querySelector('.you-lose')
 let squares = []
 let score = 0
 
@@ -79,7 +81,7 @@ function control(e) {
     squares[pacmanCurrentIndex].classList.remove('pacman')
     switch(e.keyCode) {
         case 40:
-        console.log('pressed down')
+        //console.log('pressed down')
         if (
             !squares[pacmanCurrentIndex + width].classList.contains('ghost-lair') &&
             !squares[pacmanCurrentIndex + width].classList.contains('wall') &&
@@ -88,7 +90,7 @@ function control(e) {
             pacmanCurrentIndex += width
         break
         case 38:
-        console.log('pressed up')
+        //console.log('pressed up')
         if (
             !squares[pacmanCurrentIndex -width].classList.contains('ghost-lair') &&
             !squares[pacmanCurrentIndex - width].classList.contains('wall') &&
@@ -97,7 +99,7 @@ function control(e) {
             pacmanCurrentIndex -= width
         break
         case 37: 
-        console.log('pressed left')
+        //console.log('pressed left')
         if( 
             !squares[pacmanCurrentIndex -1].classList.contains('ghost-lair') &&
             !squares[pacmanCurrentIndex -1].classList.contains('wall') &&
@@ -109,7 +111,7 @@ function control(e) {
             }
         break
         case 39:
-        console.log('pressed right')
+        //console.log('pressed right')
         if(
             !squares[pacmanCurrentIndex +1].classList.contains('ghost-lair') &&
             !squares[pacmanCurrentIndex +1].classList.contains('wall') &&
@@ -124,8 +126,6 @@ function control(e) {
     squares[pacmanCurrentIndex].classList.add('pacman')
     pacDotEaten()
     powerPelletEaten()
-    checkForWin()
-    checkForGameOver()
 }
 document.addEventListener('keyup', control)
 
@@ -144,7 +144,7 @@ function powerPelletEaten() {
         //remove power pellet class
         squares[pacmanCurrentIndex].classList.remove('power-pellet')
         //add a score of 10
-        score +=10
+        score += 10
         //change each of the four ghosts to isScared
         ghosts.forEach(ghost => ghost.isScared = true)
         //use setTimeout to unscare ghosts after 10 seconds   
@@ -185,10 +185,10 @@ ghosts.forEach(ghost => {
 ghosts.forEach(ghost => moveGhost(ghost))
 
 function moveGhost(ghost) {
-    console.log('moved ghost')
+    //console.log('moved ghost')
     const directions = [-1, +1, -width, +width]
     let direction = directions[Math.floor(Math.random() * directions.length)]
-    console.log(direction)
+    //console.log(direction)
     
     ghost.timerId = setInterval(function() {
         //all our code
@@ -219,11 +219,12 @@ function moveGhost(ghost) {
             // change ghosts currentIndex back to its startIndex
             ghost.currentIndex = ghost.startIndex
             //add a score of 100
-            score +=100
+            score += 100
             //re-add classnames of ghost.className and 'ghost' to the ghosts new postion  
             squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
         }
         checkForGameOver()
+        checkForWin()
     }, ghost.speed )
 }
 
@@ -234,23 +235,21 @@ function checkForGameOver() {
         squares[pacmanCurrentIndex].classList.contains('ghost') && 
         !squares[pacmanCurrentIndex].classList.contains('scared-ghost') 
      ) {
-     //for each ghost - we need to stop it moving
-    ghosts.forEach(ghost => clearInterval(ghost.timerId))
-    //remove eventlistener from our control function
-    document.removeEventListener('keyup', control)
-    //tell user the game is over   
-    scoreDisplay.innerHTML = 'You LOSE'
+        //for each ghost - we need to stop it moving
+        ghosts.forEach(ghost => clearInterval(ghost.timerId))
+        //remove eventlistener from our control function
+        document.removeEventListener('keyup', control)
+        //tell user the game is over   
+        youLose.innerHTML = 'YOU LOSE'
+        youLose.classList.add('you-lose')
      }
 }
 
-//check for win
 function checkForWin() {
-    if (score === 274) {
-        //stop each ghost
+    if (score >= 274) {
         ghosts.forEach(ghost => clearInterval(ghost.timerId))
-        //remove the eventListener for the control function
         document.removeEventListener('keyup', control)
-        //tell our user we have won
-        scoreDisplay.innerHTML = 'You WON!'
+        youWin.innerHTML = "YOU WIN"
+        youWin.classList.add('you-win')
     }
 }
