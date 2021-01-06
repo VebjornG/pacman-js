@@ -1,6 +1,13 @@
 html, body {
-    margin: 10;
-    padding: 10;
+    margin: 10 auto;
+    padding: 20px;
+    
+}
+
+h3 {
+    width: 10%;
+    padding: 2em;
+    margin: 0 auto;
 }
 
 .grid {
@@ -9,6 +16,7 @@ html, body {
     width: 420px;
     height: 420px;
     border: solid black;
+    margin: 0 auto;
 }
 
 .grid div {
@@ -60,4 +68,13 @@ html, body {
 .scared-ghost {
     background-color: aquamarine;
     border: none;
+}
+
+.you-win, .you-lose {
+    width: 50%;
+    padding: 0.5em;
+    margin: 0 auto;
+    color: firebrick;
+    text-align: center; 
+    font-size: 3rem;
 }
