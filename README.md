@@ -1,4 +1,7 @@
 # pacman-js
 Simple Pac-Man game made in javascript.
 
-![](images/pacman.png)
+
+<p align="center">
+  <img src="images/pacman.png"/>
+</p>
